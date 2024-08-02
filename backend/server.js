@@ -8,12 +8,15 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-    origin: "http://localhost:3000"
+    origin: "http://localhost:3000",
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-User-Token']
 }));
 
 app.use(express.json());
 
-app.post('/api/initialize_user', async (req, res) => {
+app.post('/api/initialize_user', async (req, res, userToken) => {
+    console.log('Received POST request:', req.body);
     const idempotencyKey = req.body.idempotencyKey || require("uuid").v4();
 
     const options = {
@@ -21,7 +24,7 @@ app.post('/api/initialize_user', async (req, res) => {
         url: 'https://api.circle.com/v1/w3s/user/initialize',
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${API_KEY}`,
+            Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
             "X-User-Token": userToken,
           },
           data: {
@@ -40,4 +43,4 @@ app.post('/api/initialize_user', async (req, res) => {
 });
 
 const PORT = 5000;
-app.listen(PORT, '127.0.0.1', () => console.log(`Server is running on port ${PORT}`));
+app.listen(PORT, '192.168.1.237', () => console.log(`Server is running on port ${PORT}`));
