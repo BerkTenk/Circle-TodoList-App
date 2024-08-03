@@ -25,7 +25,7 @@ app.post('/api/initialize_user', async (req, res, userToken) => {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
-            "X-User-Token": userToken,
+            "X-User-Token": `${userToken}`,
           },
           data: {
             idempotencyKey: idempotencyKey,

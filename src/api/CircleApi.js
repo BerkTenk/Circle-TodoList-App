@@ -2,7 +2,32 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 const API_URL = 'https://api.circle.com/v1/w3s';
+const API_BASE_URL = 'https://api.circle.com';
 const API_KEY = process.env.REACT_APP_API_KEY;
+const headers = {
+  'Authorization': `Bearer ${API_KEY}`,
+  'Content-Type': 'application/json'
+};
+
+export const createWallet = async (userId) => {
+  try {
+      const response = await axios.post(`${API_BASE_URL}/v1/wallets`, { userId }, { headers });
+      return response.data;
+  } catch (error) {
+      console.error('Error creating wallet:', error);
+      throw error;
+  }
+};
+
+export const getWalletDetails = async (walletId) => {
+  try {
+      const response = await axios.get(`${API_BASE_URL}/v1/wallets/${walletId}`, { headers });
+      return response.data;
+  } catch (error) {
+      console.error('Error getting wallet details:', error);
+      throw error;
+  }
+};
 
 export const get_app_id = async () => {
   try {
