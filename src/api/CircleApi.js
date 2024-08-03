@@ -21,7 +21,7 @@ export const createWallet = async (userId) => {
 
 export const getWalletDetails = async (walletId) => {
   try {
-      const response = await axios.get(`${API_BASE_URL}/v1/wallets/${walletId}`, { headers });
+      const response = await axios.get(`${API_BASE_URL}/v1/w3/wallets/${walletId}`, { headers });
       return response.data;
   } catch (error) {
       console.error('Error getting wallet details:', error);

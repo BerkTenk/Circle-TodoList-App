@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Container, Form, Row, Col, Alert } from 'react-bootstrap';
 import { get_app_id, create_a_new_user, acquire_session_token, getWalletDetails } from '../api/CircleApi';
 import { initialize_user } from '../api/ChallengeId';
-
+import { Link } from 'react-router-dom';
 function WalletPage() {
   const [walletAddress, setWalletAddress] = useState(null);
   const [tokenAmount, setTokenAmount] = useState(null);
@@ -56,6 +56,10 @@ function WalletPage() {
   return (
     <Container>
       <h1 className="my-4">Wallet Register And Login</h1>
+      <div className='d-flex justify-content-center mb-4'>
+      <Button variant="primary m-2" >
+        <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Return To Home</Link>
+      </Button></div>
       <Row>
         <Col>
       <Button onClick={handleNewWallet} disabled={loading}>

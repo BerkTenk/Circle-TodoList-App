@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 
 const themes = [
   { id: 1, name: 'Dark Theme', price: 10 },
@@ -26,6 +27,10 @@ const ThemeStore = ({ walletAddress, userBalance, setUserBalance }) => {
       <h2>Theme Store</h2>
       <p>Wallet Address: {walletAddress}</p>
       <p>Balance: {userBalance} coins</p>
+      <div className='d-flex justify-content-center mb-4'>
+      <Button variant="primary m-2" >
+        <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Return To Home</Link>
+      </Button></div>
       <div className="row">
         {themes.map((theme) => (
           <div className="col-md-4" key={theme.id}>
