@@ -15,7 +15,7 @@ app.use(cors({
 
 app.use(express.json());
 
-app.post('/api/initialize_user', async (req, res, userToken) => {
+app.post('/api/ChallengeId', async (req, res, userToken) => {
     console.log('Received POST request:', req.body);
     const idempotencyKey = req.body.idempotencyKey || require("uuid").v4();
 
