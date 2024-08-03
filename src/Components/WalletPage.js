@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Container, Form, Row, Col, Alert } from 'react-bootstrap';
-import { get_app_id, create_a_new_user, acquire_session_token } from '../api/CircleApi';
+import { get_app_id, create_a_new_user, acquire_session_token, getWalletDetails } from '../api/CircleApi';
 import { initialize_user } from '../api/ChallengeId';
 
 function WalletPage() {
@@ -12,6 +12,19 @@ function WalletPage() {
   const [challengeId, setChallengeId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [walletId, setWalletId] = useState('');
+  const [walletDetails, setWalletDetails] = useState(null);
+
+  const handleLogin = async () => {
+    try {
+        setError('');  // Önceki hataları temizle
+        const details = await getWalletDetails(walletId);
+        setWalletDetails(details);
+    } catch (error) {
+        console.error('Error during wallet login:', error);
+        setError('Girdiğiniz wallet ID geçersiz veya bulunamadı.');
+    }
+};
 
   const handleNewWallet = async () => {
     setLoading(true);
@@ -42,7 +55,9 @@ function WalletPage() {
 
   return (
     <Container>
-      <h1 className="my-4">Nice Wallet</h1>
+      <h1 className="my-4">Wallet Register And Login</h1>
+      <Row>
+        <Col>
       <Button onClick={handleNewWallet} disabled={loading}>
         {loading ? 'Creating Wallet...' : 'Create Wallet'}
       </Button>
@@ -68,6 +83,30 @@ function WalletPage() {
           </Col>
         </Form.Group>
       </Form>
+      </Col>
+      <Col>
+      <div>
+            <h2>Mevcut Wallet ID ile Giriş Yap</h2>
+            <input 
+                type="text"
+                placeholder="Wallet ID"
+                value={walletId}
+                onChange={(e) => setWalletId(e.target.value)}
+            />
+            <button onClick={handleLogin}>
+                Giriş Yap
+            </button>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {walletDetails && (
+                <div>
+                    <h3>Wallet Detayları</h3>
+                    <p>Wallet ID: {walletDetails.data.id}</p>
+                    <p>Toplam Token Miktarı: {walletDetails.data.balances.totalAmount}</p>
+                </div>
+            )}
+        </div>
+      </Col>
+      </Row>
     </Container>
   );
 }
